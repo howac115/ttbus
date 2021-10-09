@@ -17,12 +17,14 @@ export default function Register(props) {
     const onRegister = async () => {
         let response = await axios.post('/user/register',
             {
-                schoolName: school, schoolContactName: contact,
+                schoolName: school, 
+                schoolContactName: contact,
                 schoolContactNumber: number,
-                email: email, password: password
+                email: email, 
+                password: password
             }).catch(
                 err => {
-                    if (err.response.status == 404) {
+                    if (err.response.status === 404) {
                         console.log('authentication failed')
                     }
                 }

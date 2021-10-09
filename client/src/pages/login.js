@@ -16,7 +16,7 @@ export default function App(props) {
   const onLogin = async () => {
     let response = await axios.post('/user/login', { email: email, password: password }).catch(
       err => {
-        if (err.response.status == 404) {
+        if (err.response.status === 404) {
           console.log('authentication failed')
         }
       }
