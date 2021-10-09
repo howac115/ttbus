@@ -5,8 +5,9 @@ const bodyParser = require('body-parser');
 
 
 const user = require('./routes/user');
-// const schedule = require('./routes/schedule');
-// const interest = require('./routes/interest');
+const visit = require('./routes/visit');
+const interest = require('./routes/interest');
+const email = require('./routes/email');
 
 const port = process.env.PORT || 5000;
 
@@ -27,8 +28,9 @@ mongoose
 
 // Use Routes
 app.use('/user', user);
-// app.use('/schedule', schedule);
-// app.use('/interest', interest);
+app.use('/visit', visit);
+app.use('/interest', interest);
+app.use('/email', email);
 
 
 app.listen(port, () => console.log(`Server started on port ${port}`));

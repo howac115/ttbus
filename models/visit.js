@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const ScheduleSchema = new Schema({
+const VisitSchema = new Schema({
     interestId: {
         type: Number
     },
@@ -35,4 +35,4 @@ const ScheduleSchema = new Schema({
 });
 
 
-module.exports = mongoose.model("Schedule", ScheduleSchema);
+module.exports = mongoose.model("Visit", VisitSchema);

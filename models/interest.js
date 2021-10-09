@@ -41,6 +41,9 @@ var InterestSchema = new Schema({
     },
     message: {
         type: String
+    },
+    interestID: {
+        type: Number
     }
 }, { timestamps: true })
 
