@@ -23,9 +23,12 @@ export default function App(props) {
     )
     if (response) {
       console.log(response.data.user)
+      localStorage.setItem('user', response.data.user.email)
       if (response.data.user.admin) {
+        localStorage.setItem('admin', true)
         props.history.push('/admin')
       } else {
+        localStorage.setItem('school', response.data.user.schoolName)
         props.history.push('/school')
       }
 

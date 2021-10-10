@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const VisitSchema = new Schema({
-    interestId: {
+    interestID: {
         type: Number
     },
     schoolName: {
@@ -18,7 +18,7 @@ const VisitSchema = new Schema({
         type: Date
     },
     specializedActivities: {
-        type: Boolean
+        type: String
     },
     studentsParticipating: {
         type: Number

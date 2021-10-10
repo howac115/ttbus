@@ -17,8 +17,8 @@ exports.visitCreatePost = function (req, res) {
     });
 };
 
-exports.visitListGet = function (req, res) { // here even though req is not used, it is there for making res as response, otherwise res will be request
-    Visit.find().exec((err, visits) => {
+exports.visitListGet = function (req, res) {
+    Visit.find(req.query).exec((err, visits) => {
         if (err) {
             res.status(404).json({ success: false, err })
         } else {
@@ -27,12 +27,17 @@ exports.visitListGet = function (req, res) { // here even though req is not used
     })
 };
 
-exports.visitDetailGet = function (req, res) {
-    Visit.findById(req.params.id, function (err, visit) {
-        if (visit) {
-            res.status(200).json({ success: true, visit: visit })
-        } else {
-            res.status(404).json({ success: false, message: err })
+exports.visitUpdatePost = function (req, res) {
+    Visit.findOneAndUpdate(
+        req.query,
+        req.body,
+        { new: true },
+        function (err, updatedInterest) {
+            if (err) {
+                res.status(404).json({ success: false, err });
+            } else {
+                res.status(200).json({ success: true, updatedInterest: updatedInterest });
+            }
         }
-    })
+    );
 };

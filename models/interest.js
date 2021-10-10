@@ -5,6 +5,9 @@ var InterestSchema = new Schema({
     schoolName: {
         type: String
     },
+    schoolEmail: {
+        type: String
+    },
     address: {
         type: String
     },
@@ -17,7 +20,7 @@ var InterestSchema = new Schema({
     postalCode: {
         type: Number
     },
-    shcoolType: {
+    schoolType: {
         // one of 'hosting school' or 'visiting school' 
         type: String
     },

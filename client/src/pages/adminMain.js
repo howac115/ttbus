@@ -1,56 +1,52 @@
 import React, { useEffect, useState } from 'react'
 import axios from '../commons/axios.js';
+import { Card, Typography, PageHeader, message, Table, Tag, Space } from 'antd'
 
-export default function AdminMain() {
+const { Title, Link } = Typography;
 
-    const [interestList, setInterestList] = useState('');
+export default function AdminMain(props) {
 
-
-    const header = ["Interest ID", "Shcool Name", "Address", "City", "State", "Postal Code", "ShcoolType", 
-                    "SecureParking", "Parking Spaces", "Ppen Areas", "Visiting School Name", "Nearest Host SchoolName",
-                    "Distance", "Message"];
+    const [interestList, setInterestList] = useState([]);
 
     useEffect(async () => {
-        let response = await axios.get("/interest/");
+        if (!localStorage.getItem('user')) {
+            message.error('please login to view this page')
+            props.history.push('/')
+        }
+        let response = await axios.get("/interest");
         setInterestList(response.data.allInterest);
+        console.log(response.data.allInterest)
     }, []);
 
-    console.log(interestList)
+    const handleInterestRedirect = () => {
+        console.log(interestList)
+    }
 
-    
-    
+    const handleGoBack = () => {
+        localStorage.clear()
+        props.history.push('/')
+    }
+
+    const columns = [
+        {
+            title: 'School Name',
+            dataIndex: 'schoolName',
+            key: 'schoolName',
+            render: (text, record, index) => <Link onClick={() => props.history.push(window.location.pathname + '/schedule', { record })}> {text} </Link>
+        },
+        {
+            title: 'School Type',
+            dataIndex: 'schoolType',
+            key: 'schoolType',
+        }
+    ];
 
     return (
         <div>
-            <h1>admin main page</h1>
-            <table>
-                <thead>
-                <tr>{header.map((h, i) => <th key={i}>{h}</th>)}</tr>
-                </thead>
-                <tbody>
-                {Object.keys(interestList).map((k, i) => {
-                    let data = interestList[k];
-                    return (
-                    <tr key={i}>
-                        <td width="80" height="50" >{data.interestID}</td>
-                        <td width="100" height="50">{data.schoolName}</td>
-                        <td width="200" height="50">{data.address}</td>
-                        <td width="100" height="50">{data.city}</td>
-                        <td width="80" height="50">{data.state}</td>
-                        <td width="50" height="50">{data.postalCode}</td>
-                        <td width="80" height="50">{data.shcoolType}</td>
-                        <td width="80" height="50">{data.secureParking}</td>
-                        <td width="80" height="50">{data.parkingSpaces}</td>
-                        <td width="80" height="50">{data.openAreas}</td>
-                        <td width="80" height="50">{data.visitingSchoolName}</td>
-                        <td width="80" height="50">{data.nearestHostSchoolName}</td>
-                        <td width="80" height="50">{data.distanceFromNearestHostSchool}</td>
-                        <td width="80" height="50">{data.message}</td>
-                    </tr>
-                    );
-                })}
-                </tbody>
-            </table>
+            <PageHeader title="Expression of Interest Listing" onBack={handleGoBack} />
+            <div style={{ marginLeft: 'auto', marginRight: 'auto', width: '40vw', marginTop: '5vh' }}>
+                <Table columns={columns} dataSource={interestList} />
+            </div>
         </div>
     )
 }

@@ -8,6 +8,6 @@ router.post('/create', visitController.visitCreatePost);
 
 router.get('/', visitController.visitListGet);
 
-router.get('/:id', visitController.visitDetailGet);
+router.post('/update', visitController.visitUpdatePost);
 
 module.exports = router;

@@ -57,7 +57,8 @@ exports.userLoginPost = function (req, res) {
                         user: {
                             id: user.id,
                             email: user.email,
-                            admin: user.admin
+                            admin: user.admin,
+                            schoolName: user.schoolName
                         },
                     });
                 } else {

@@ -5,16 +5,18 @@ const router = express.Router();
 
 // POST request to create a snack
 router.post('/send', (req, res) => {
+
+    console.log(req.query)
+    console.log(req.body)
     const output = `
-    <p>You have a new contact request</p>
-    <h3>Contact Details</h3>
-    <h1>hello maxiu<h1>
-    <h3>Message</h3>
+    <h1>${req.body.subject}</h1>
+    <h3>${req.body.text}</h3>
   `;
 
     // create reusable transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
         service: "gmail",
+        port: 225,
         auth: {
             user: "travellingtechybus@gmail.com",
             pass: "chrdwhdhxt"
@@ -23,10 +25,10 @@ router.post('/send', (req, res) => {
 
     // setup email data with unicode symbols
     let mailOptions = {
-        from: 'travellingtechybus.com', // sender address
-        to: 'matthewk1kk@gmail.com', // list of receivers
-        subject: 'Node Contact Request', // Subject line
-        text: 'Hello world?', // plain text body
+        from: 'travellingtechybus@gmail.com', // sender address
+        to: req.query.email, // list of receivers
+        subject: req.body.subject, // Subject line
+        text: req.body.text, // plain text body
         html: output // html body
     };
 
