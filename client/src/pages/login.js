@@ -16,9 +16,10 @@ export default function App(props) {
   const onLogin = async () => {
     let response = await axios.post('/user/login', { email: email, password: password }).catch(
       err => {
-        if (err.response.status === 404) {
-          console.log('authentication failed')
-        }
+        console.log(err)
+        // if (err.response.status === 404) {
+        console.log('authentication failed')
+        // }
       }
     )
     if (response) {
@@ -33,7 +34,10 @@ export default function App(props) {
       }
 
     }
+    
   }
+
+
 
   return (
     <div style={{ marginLeft: 'auto', marginRight: 'auto', width: '30vw', marginTop: '20vh' }}>
@@ -51,7 +55,7 @@ export default function App(props) {
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Password"
+          <Form.Control type="password" placeholder="Password" required="true"
             onChange={e => setPassword(e.target.value)} />
         </Form.Group>
         <Text>Don't have an account? <Link href="/register">

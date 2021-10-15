@@ -29,6 +29,12 @@ const VisitSchema = new Schema({
     totalCost: {
         type: Number
     },
+    message: {
+        type: String
+    },
+    address: {
+        type: String
+    },
     reasonForCancellation: {
         type: String
     }

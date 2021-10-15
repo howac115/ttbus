@@ -87,7 +87,10 @@ export default function SchoolMain(props) {
 
             let email = await axios.post('/email/send?email=travellingtechybus@gmail.com', {
                 subject: 'New Submitted Interest!',
-                text: schoolName + ' has submitted a new expression of interest!'
+                text: schoolName + ' has submitted a new expression of interest!',
+                address: address,
+                schoolType: schoolType,
+                message: message
             })
             console.log(email)
             window.location.reload()
@@ -211,7 +214,7 @@ export default function SchoolMain(props) {
                                 style={{ height: '100px' }}
                                 onChange={e => setMessage(e.target.value)} />
                         </Form.Group>
-                        
+
                     </div>
                     <div style={{ display: visitPart, marginTop: '2vh' }}>
                         <h3>Visiting Shcool Only</h3>

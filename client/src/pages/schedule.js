@@ -110,6 +110,8 @@ export default function Schedule(props) {
                 interestID: interest.interestID,
                 schoolName: interest.schoolName,
                 schoolType: interest.schoolType,
+                message: interest.message,
+                address: interest.address,
                 startDate: value[0].toISOString(),
                 endDate: value[1].toISOString()
 
@@ -125,9 +127,15 @@ export default function Schedule(props) {
             message.success('visit successfully created!')
 
 
-            await axios.post('/email/send?email='+props.history.location.state.record.schoolEmail, {
+            await axios.post('/email/send?email=' + props.history.location.state.record.schoolEmail, {
                 subject: 'New Scheduled Interest!',
-                text: 'Admin has scheduled a new visit!'
+                text: 'Admin has scheduled a new visit!',
+                interestID: interest.interestID,
+                schoolName: interest.schoolName,
+                schoolType: interest.schoolType,
+                address: interest.address,
+                startDate: value[0].toISOString().slice(0, 10),
+                endDate: value[1].toISOString().slice(0, 10)
             })
 
             window.location.reload()
@@ -160,15 +168,19 @@ export default function Schedule(props) {
             )
         if (response) {
             console.log(response.data)
-            message.success('visit successfully created!')
+            if (cancelMessage != '') {
+                message.success('visit successfully cancelled!')
+            } else {
+                message.success('visit successfully updated!')
+            }
 
             if (cancelMessage != '') {
-                await axios.post('/email/send?email='+props.history.location.state.record.schoolEmail, {
+                await axios.post('/email/send?email=' + props.history.location.state.record.schoolEmail, {
                     subject: 'Cancelled Visiting',
                     text: props.history.location.state.record.schoolName + ' has cacelled the visit.'
                 })
             }
-            
+
 
             window.location.reload()
         }
@@ -189,6 +201,12 @@ export default function Schedule(props) {
                     </Form.Item>
                     <Form.Item label="School Type">
                         <Input value={interest.schoolType} />
+                    </Form.Item>
+                    <Form.Item label="Address">
+                        <Input value={interest.address} />
+                    </Form.Item>
+                    <Form.Item label="Message">
+                        <Input value={interest.message} />
                     </Form.Item>
                     <RangePicker
                         value={hackValue || value}
@@ -214,7 +232,9 @@ export default function Schedule(props) {
                     <Descriptions.Item label="Participate in Special Activities" span={4}>{specialAct}</Descriptions.Item>
                     <Descriptions.Item label="Total Students Participating" span={1}>{totalStudents}</Descriptions.Item>
                     <Descriptions.Item label="Cost Per Student" span={2}>{costPerStudent}</Descriptions.Item>
-                    <Descriptions.Item label="Total Cost" span={2}>{totalCost}</Descriptions.Item>
+                    <Descriptions.Item label="Total Cost" span={4}>{totalCost}</Descriptions.Item>
+                    <Descriptions.Item label="Address" span={4}>{interest.address}</Descriptions.Item>
+                    <Descriptions.Item label="Message" span={4}>{interest.message}</Descriptions.Item>
                 </Descriptions>
                 <div style={{ marginTop: '2vh', display: cancel }}>
                     <Button variant='primary' onClick={() => setCancelInput('block')} >Cancel Visit</Button>
@@ -238,6 +258,12 @@ export default function Schedule(props) {
                     <Form.Item label="School Type">
                         <Input value={interest.schoolType} />
                     </Form.Item>
+                    <Form.Item label="Address">
+                        <Input value={interest.address} />
+                    </Form.Item>
+                    <Form.Item label="Message">
+                        <Input value={interest.message} />
+                    </Form.Item>
                     <RangePicker
                         value={hackValue || value}
                         disabledDate={disabledDate}
@@ -253,10 +279,10 @@ export default function Schedule(props) {
                         </Radio.Group>
                     </Form.Item>
                     <Form.Item label="Total Students Participating">
-                        <InputNumber defaultValue={0} onChange={setTotalStudents} />
+                        <InputNumber defaultValue={0} min={0} onChange={setTotalStudents} />
                     </Form.Item>
                     <Form.Item label="Cost Per Student">
-                        <InputNumber defaultValue={0} onChange={setcostPerStudent} />
+                        <InputNumber defaultValue={0} min={0} onChange={setcostPerStudent} />
                     </Form.Item>
                 </Form>
                 <Title level={4}>Total Cost: {parseInt(totalStudents) * parseInt(costPerStudent)}</Title>
