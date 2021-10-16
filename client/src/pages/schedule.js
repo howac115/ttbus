@@ -143,7 +143,8 @@ export default function Schedule(props) {
                 schoolType: interest.schoolType,
                 address: interest.address,
                 startDate: value[0].toISOString().slice(0, 10),
-                endDate: value[1].toISOString().slice(0, 10)
+                endDate: value[1].toISOString().slice(0, 10),
+                message: interest.message
             })
 
             window.location.reload()
