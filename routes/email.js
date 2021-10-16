@@ -12,10 +12,9 @@ router.post('/send', (req, res) => {
         output = `
         <h1>${req.body.subject}</h1>
         <h3>${req.body.text}</h3>
-        <h3>Expression of Interest Acceptance ID: ${req.body.interestID}</h3>
         <h3>Address: ${req.body.address}</h3>
         <h3>School Type: ${req.body.schoolType}</h3>
-        <h4>From ${req.body.startDate} to ${req.body.endDate}</h4>
+        <h4>Message: ${req.body.message}</h4>
       `;
     } else if (req.body.type == 'confirm') {
         output = `
