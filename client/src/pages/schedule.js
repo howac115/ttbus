@@ -189,7 +189,7 @@ export default function Schedule(props) {
             }
 
             if (cancelMessage != '') {
-                await axios.post('/email/send?email=' + props.history.location.state.record.schoolEmail, {
+                await axios.post('/email/send?email=travellingtechybus@gmail.com', {
                     type: 'cancel',
                     subject: 'Cancelled Visiting',
                     text: props.history.location.state.record.schoolName + ' has cacelled the visit.',
