@@ -86,8 +86,8 @@ export default function Schedule(props) {
             if (!dates || dates.length === 0) {
                 return false;
             }
-            const tooLate = dates[0] && current.diff(dates[0], 'days') < 7;
-            const tooEarly = dates[1] && dates[1].diff(current, 'months') > 1;
+            const tooLate = dates[0] && current.diff(dates[0], 'days') > 60;
+            const tooEarly = dates[0] && current.diff(dates[0], 'days') < 7;
             return tooEarly || tooLate;
         } else {
             const tooShort = dates[0] && current.diff(dates[0], 'days') < 7;
