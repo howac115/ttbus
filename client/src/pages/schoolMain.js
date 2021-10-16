@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from '../commons/axios.js';
 import { Form, Button, Row, Col } from 'react-bootstrap'
-import { Divider, message, Typography, PageHeader, Table } from 'antd'
+import { Divider, message, Typography, PageHeader, Table, InputNumber } from 'antd'
 
 const { Text, Link } = Typography;
 
@@ -194,15 +194,17 @@ export default function SchoolMain(props) {
                         </fieldset>
                         <Row className="mb-3">
                             <Form.Group as={Col} className="mb-3" controlId="formBasicPassword">
-                                <Form.Label>Parking Spaces</Form.Label>
-                                <Form.Control type="parkingSpaces" placeholder="enter number of parking Spaces"
-                                    onChange={e => setParkingSpaces(e.target.value)} />
+                                <Form.Label style={{ marginRight: '2vw' }}>Parking Spaces</Form.Label>
+                                <InputNumber defaultValue={0} min={0} onChange={setParkingSpaces} />
+                                {/* <Form.Control type="parkingSpaces" placeholder="enter number of parking Spaces"
+                                    onChange={e => setParkingSpaces(e.target.value)} /> */}
                             </Form.Group>
 
                             <Form.Group as={Col} className="mb-3" controlId="formBasicPassword">
-                                <Form.Label>Open Areas</Form.Label>
-                                <Form.Control type="openAreas" placeholder="enter number of Open Areas"
-                                    onChange={e => setOpenAreas(e.target.value)} />
+                                <Form.Label style={{ marginRight: '2vw' }}>Open Areas</Form.Label>
+                                <InputNumber defaultValue={0} min={0} onChange={setOpenAreas} />
+                                {/* <Form.Control type="openAreas" placeholder="enter number of Open Areas"
+                                    onChange={e => setOpenAreas(e.target.value)} /> */}
                             </Form.Group>
                         </Row>
 
@@ -234,8 +236,9 @@ export default function SchoolMain(props) {
 
                             <Form.Group as={Col} className="mb-3" controlId="formBasicPassword">
                                 <Form.Label>Distance From Nearest HostSchool</Form.Label>
-                                <Form.Control type="distanceFromNearestHostSchool" placeholder="enter Distance From Nearest HostSchool"
-                                    onChange={e => setDistance(e.target.value)} />
+                                <InputNumber defaultValue={0} min={0} onChange={setDistance} />
+                                {/* <Form.Control type="distanceFromNearestHostSchool" placeholder="enter Distance From Nearest HostSchool"
+                                    onChange={e => setDistance(e.target.value)} /> */}
                             </Form.Group>
                         </Row>
 
@@ -254,7 +257,7 @@ export default function SchoolMain(props) {
                     Submit
                 </Button>
             </div >
-        </div>
+        </div >
 
 
     )
