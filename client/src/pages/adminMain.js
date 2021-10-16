@@ -32,7 +32,7 @@ export default function AdminMain(props) {
             title: 'School Name',
             dataIndex: 'schoolName',
             key: 'schoolName',
-            render: (text, record, index) => <Link onClick={() => props.history.push(window.location.pathname + '/schedule', { record })}> {text} </Link>
+            render: (text, record, index) => <Link onClick={() => props.history.push(window.location.pathname + '/schedule', { record, startDate: record.startDate ? record.startDate : '', endDate: record.endDate ? record.endDate : '' })}> {text} </Link>
         },
         {
             title: 'School Type',
