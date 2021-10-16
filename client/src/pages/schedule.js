@@ -13,8 +13,8 @@ export default function Schedule(props) {
     const [dates, setDates] = useState([]);
     const [hackValue, setHackValue] = useState();
     const [value, setValue] = useState();
-    const [startDate, setStartDate] = useState(props.history.location.state.record.startDate.slice(0, 10));
-    const [endDate, setEndDate] = useState(props.history.location.state.record.endDate.slice(0, 10));
+    const [startDate, setStartDate] = useState(props.history.location.state.startDate.slice(0, 10))
+    const [endDate, setEndDate] = useState(props.history.location.state.endDate.slice(0, 10));
 
     const [specialAct, setSpecialAct] = useState('To be confirmed');
     const [totalStudents, setTotalStudents] = useState('To be confirmed')
@@ -35,6 +35,7 @@ export default function Schedule(props) {
     useEffect(async () => {
         console.log(props.history.location.state.record)
         console.log(window.location.pathname)
+        console.log(props.history.location.state)
         let response = await axios.get("/visit?interestID=" + props.history.location.state.record.interestID);
         if (response.data.visits.length > 0) {
             if (window.location.pathname.includes('admin')) {
@@ -70,8 +71,6 @@ export default function Schedule(props) {
                 setStartDate(response.data.visits[0].startDate.slice(0, 10))
                 setEndDate(response.data.visits[0].endDate.slice(0, 10))
                 console.log(response.data.visits[0].startDate.slice(0, 10))
-                localStorage.setItem('startDate', response.data.visits[0].startDate.slice(0, 10))
-                localStorage.setItem('endDate', response.data.visits[0].endDate.slice(0, 10))
             }
         } else if (window.location.pathname.includes('admin')) {
             setCreateForm('block')
@@ -80,7 +79,7 @@ export default function Schedule(props) {
             setEmpty('block')
         }
         setInterest(props.history.location.state.record);
-    }, []);
+    }, [props.history.location.state.record]);
 
     const disabledDate = current => {
         if (window.location.pathname.includes('admin')) {
