@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import axios from '../commons/axios.js';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'antd/dist/antd.css';
 import { Form, Button } from 'react-bootstrap'
-import { Divider, Typography } from 'antd'
+import { Divider, Typography, message } from 'antd'
 
 const { Text, Link } = Typography;
 
@@ -18,6 +18,7 @@ export default function App(props) {
       err => {
         console.log(err)
         // if (err.response.status === 404) {
+        message.error('authentication failed')
         console.log('authentication failed')
         // }
       }
@@ -34,7 +35,7 @@ export default function App(props) {
       }
 
     }
-    
+
   }
 
 

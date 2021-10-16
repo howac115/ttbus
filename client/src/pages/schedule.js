@@ -13,8 +13,8 @@ export default function Schedule(props) {
     const [dates, setDates] = useState([]);
     const [hackValue, setHackValue] = useState();
     const [value, setValue] = useState();
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
+    const [startDate, setStartDate] = useState(props.history.location.state.record.startDate.slice(0, 10));
+    const [endDate, setEndDate] = useState(props.history.location.state.record.endDate.slice(0, 10));
 
     const [specialAct, setSpecialAct] = useState('To be confirmed');
     const [totalStudents, setTotalStudents] = useState('To be confirmed')
@@ -28,6 +28,7 @@ export default function Schedule(props) {
     const [cancel, setCancel] = useState('none');
     const [empty, setEmpty] = useState('none');
 
+    const [specialInput, setSpecialInput] = useState('none')
     const [cancelInput, setCancelInput] = useState('none')
     const [showCancelMessage, setShowCancelMessage] = useState('none')
 
@@ -50,7 +51,6 @@ export default function Schedule(props) {
                 }
                 setStartDate(response.data.visits[0].startDate)
                 setEndDate(response.data.visits[0].endDate)
-                console.log(Date.parse(startDate))
             } else if (response.data.visits[0].specializedActivities) {
                 setVisitInfo('block')
                 setCancel('block')
@@ -69,7 +69,9 @@ export default function Schedule(props) {
                 setRepConfirm('block')
                 setStartDate(response.data.visits[0].startDate.slice(0, 10))
                 setEndDate(response.data.visits[0].endDate.slice(0, 10))
-                console.log(moment(startDate))
+                console.log(response.data.visits[0].startDate.slice(0, 10))
+                localStorage.setItem('startDate', response.data.visits[0].startDate.slice(0, 10))
+                localStorage.setItem('endDate', response.data.visits[0].endDate.slice(0, 10))
             }
         } else if (window.location.pathname.includes('admin')) {
             setCreateForm('block')
@@ -85,7 +87,7 @@ export default function Schedule(props) {
             if (!dates || dates.length === 0) {
                 return false;
             }
-            const tooLate = dates[0] && current.diff(dates[0], 'months') > 1;
+            const tooLate = dates[0] && current.diff(dates[0], 'days') < 7;
             const tooEarly = dates[1] && dates[1].diff(current, 'months') > 1;
             return tooEarly || tooLate;
         } else {
@@ -123,11 +125,18 @@ export default function Schedule(props) {
                 }
             )
         if (response) {
+
+            let update = await axios.post('/interest/update?interestID=' + interest.interestID, {
+                startDate: value[0].toISOString(),
+                endDate: value[1].toISOString()
+            })
+
             console.log(response.data)
             message.success('visit successfully created!')
 
 
             await axios.post('/email/send?email=' + props.history.location.state.record.schoolEmail, {
+                type: 'confirm',
                 subject: 'New Scheduled Interest!',
                 text: 'Admin has scheduled a new visit!',
                 interestID: interest.interestID,
@@ -154,10 +163,15 @@ export default function Schedule(props) {
                 endDate: value[1].toISOString(),
                 specializedActivities: specialAct,
                 studentsParticipating: totalStudents,
-                costPerStudent: costPerStudent,
-                totalCost: parseInt(totalStudents) * parseInt(costPerStudent)
+                costPerStudent: 30,
+                totalCost: parseInt(totalStudents) * parseInt(30)
+            }
+            if (specialAct === 'No') {
+                updateBody.studentsParticipating = 0
+                updateBody.totalCost = 0
             }
         }
+        console.log(updateBody)
         let response = await axios.post('/visit/update?interestID=' + interest.interestID.toString(),
             updateBody).catch(
                 err => {
@@ -176,12 +190,21 @@ export default function Schedule(props) {
 
             if (cancelMessage != '') {
                 await axios.post('/email/send?email=' + props.history.location.state.record.schoolEmail, {
+                    type: 'cancel',
                     subject: 'Cancelled Visiting',
-                    text: props.history.location.state.record.schoolName + ' has cacelled the visit.'
+                    text: props.history.location.state.record.schoolName + ' has cacelled the visit.',
+                    interestID: interest.interestID,
+                    schoolName: interest.schoolName,
+                    schoolType: interest.schoolType,
+                    address: interest.address,
+                    startDate: interest.startDate.slice(0, 10),
+                    endDate: interest.endDate.slice(0, 10),
+                    specialAct: specialAct,
+                    totalStudents: totalStudents,
+                    totalCost: totalCost,
+                    reasonForCancellation: cancelMessage
                 })
             }
-
-
             window.location.reload()
         }
     }
@@ -267,6 +290,8 @@ export default function Schedule(props) {
                     <RangePicker
                         value={hackValue || value}
                         disabledDate={disabledDate}
+                        defaultValue={[moment(startDate), moment(endDate)]}
+                        format="YYYY-MM-DD"
                         onCalendarChange={val => setDates(val)}
                         onChange={val => setValue(val)}
                         onOpenChange={onOpenChange}
@@ -274,18 +299,18 @@ export default function Schedule(props) {
                     <Form.Item label="Participate in Specialized Activities?"
                         style={{ marginTop: '4vh' }}>
                         <Radio.Group >
-                            <Radio value={1} onChange={() => setSpecialAct('Yes')}>Yes</Radio>
-                            <Radio value={2} onChange={() => setSpecialAct('No')}>No</Radio>
+                            <Radio value={1} onChange={() => { setSpecialAct('Yes'); setSpecialInput('block') }}>Yes</Radio>
+                            <Radio value={2} onChange={() => { setSpecialAct('No'); setSpecialInput('none') }}>No</Radio>
                         </Radio.Group>
                     </Form.Item>
-                    <Form.Item label="Total Students Participating">
-                        <InputNumber defaultValue={0} min={0} onChange={setTotalStudents} />
-                    </Form.Item>
-                    <Form.Item label="Cost Per Student">
-                        <InputNumber defaultValue={0} min={0} onChange={setcostPerStudent} />
-                    </Form.Item>
+                    <div style={{ display: specialInput }}>
+                        <Form.Item label="Total Students Participating">
+                            <InputNumber defaultValue={0} min={0} onChange={setTotalStudents} />
+                        </Form.Item>
+                        <Title level={5}>Cost Per Student: 30</Title>
+                        <Title level={4}>Total Cost: {parseInt(totalStudents) * parseInt(30)}</Title>
+                    </div>
                 </Form>
-                <Title level={4}>Total Cost: {parseInt(totalStudents) * parseInt(costPerStudent)}</Title>
                 <Button type="primary" style={{ marginTop: '4vh' }}
                     onClick={visitUpdate}>
                     Submit

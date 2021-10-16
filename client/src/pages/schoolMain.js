@@ -86,11 +86,12 @@ export default function SchoolMain(props) {
             message.success('Interest successfully created!')
 
             let email = await axios.post('/email/send?email=travellingtechybus@gmail.com', {
+                type: 'create',
                 subject: 'New Submitted Interest!',
                 text: schoolName + ' has submitted a new expression of interest!',
                 address: address,
                 schoolType: schoolType,
-                message: message
+                message: interestMessage
             })
             console.log(email)
             window.location.reload()

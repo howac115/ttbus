@@ -47,7 +47,13 @@ var InterestSchema = new Schema({
     },
     interestID: {
         type: Number
-    }
+    },
+    startDate: {
+        type: Date
+    },
+    endDate: {
+        type: Date
+    },
 }, { timestamps: true })
 
 module.exports = mongoose.model("Interest", InterestSchema);

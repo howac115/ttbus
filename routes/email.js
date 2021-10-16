@@ -8,7 +8,7 @@ router.post('/send', (req, res) => {
 
     let output = ``
 
-    if (req.body.startDate) {
+    if (req.body.type == 'create') {
         output = `
         <h1>${req.body.subject}</h1>
         <h3>${req.body.text}</h3>
@@ -17,7 +17,7 @@ router.post('/send', (req, res) => {
         <h3>School Type: ${req.body.schoolType}</h3>
         <h4>From ${req.body.startDate} to ${req.body.endDate}</h4>
       `;
-    } else if (req.body.address) {
+    } else if (req.body.type == 'confirm') {
         output = `
         <h1>${req.body.subject}</h1>
         <h3>${req.body.text}</h3>
@@ -25,10 +25,19 @@ router.post('/send', (req, res) => {
         <h3>School Type: ${req.body.schoolType}</h3>
         <h5>Message: ${req.body.message}</h5>
       `;
-    } else {
+    } else if (req.body.type == 'cancel') {
         output = `
         <h1>${req.body.subject}</h1>
         <h3>${req.body.text}</h3>
+        <h3>Expression of Interest Acceptance ID: ${req.body.interestID}</h3>
+        <h3>Address: ${req.body.address}</h3>
+        <h3>School Type: ${req.body.schoolType}</h3>
+        <h3>Participate in Special Activities? ${req.body.specialAct}</h3>
+        <h3>Total Students: ${req.body.totalStudents}</h3>
+        <h3>Cost Per Student: 30</h3>
+        <h3>Total Cost: ${req.body.totalCost}</h3>
+        <h4>From ${req.body.startDate} to ${req.body.endDate}</h4>
+        <h4>Reason for Cancellation: ${req.body.reasonForCancellation}</h4>
       `;
     }
 

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import axios from '../commons/axios.js';
-import { Card, Typography, PageHeader, message, Table, Tag, Space } from 'antd'
+import { Typography, PageHeader, message, Table } from 'antd'
 
-const { Title, Link } = Typography;
+const { Link } = Typography;
 
 export default function AdminMain(props) {
 

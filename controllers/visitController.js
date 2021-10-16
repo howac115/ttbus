@@ -32,11 +32,11 @@ exports.visitUpdatePost = function (req, res) {
         req.query,
         req.body,
         { new: true },
-        function (err, updatedInterest) {
+        function (err, updatedVisit) {
             if (err) {
                 res.status(404).json({ success: false, err });
             } else {
-                res.status(200).json({ success: true, updatedInterest: updatedInterest });
+                res.status(200).json({ success: true, updatedVisit: updatedVisit });
             }
         }
     );

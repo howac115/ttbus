@@ -12,6 +12,6 @@ router.post('/create', interestController.interestCreatePost);
 router.get('/', interestController.interestListGet);
 
 // POST request to update a snack
-router.post('/:id/update', interestController.interestUpdatePost);
+router.post('/update', interestController.interestUpdatePost);
 
 module.exports = router;
