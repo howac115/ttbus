@@ -225,12 +225,6 @@ export default function Schedule(props) {
                     <Form.Item label="School Type">
                         <Input value={interest.schoolType} />
                     </Form.Item>
-                    <Form.Item label="Address">
-                        <Input value={interest.address} />
-                    </Form.Item>
-                    <Form.Item label="Message">
-                        <Input value={interest.message} />
-                    </Form.Item>
                     <RangePicker
                         value={hackValue || value}
                         disabledDate={disabledDate}
@@ -256,8 +250,6 @@ export default function Schedule(props) {
                     <Descriptions.Item label="Total Students Participating" span={1}>{totalStudents}</Descriptions.Item>
                     <Descriptions.Item label="Cost Per Student" span={2}>{costPerStudent}</Descriptions.Item>
                     <Descriptions.Item label="Total Cost" span={4}>{totalCost}</Descriptions.Item>
-                    <Descriptions.Item label="Address" span={4}>{interest.address}</Descriptions.Item>
-                    <Descriptions.Item label="Message" span={4}>{interest.message}</Descriptions.Item>
                 </Descriptions>
                 <div style={{ marginTop: '2vh', display: cancel }}>
                     <Button variant='primary' onClick={() => setCancelInput('block')} >Cancel Visit</Button>
@@ -280,12 +272,6 @@ export default function Schedule(props) {
                     </Form.Item>
                     <Form.Item label="School Type">
                         <Input value={interest.schoolType} />
-                    </Form.Item>
-                    <Form.Item label="Address">
-                        <Input value={interest.address} />
-                    </Form.Item>
-                    <Form.Item label="Message">
-                        <Input value={interest.message} />
                     </Form.Item>
                     <RangePicker
                         value={hackValue || value}
